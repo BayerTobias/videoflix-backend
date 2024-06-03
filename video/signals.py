@@ -23,14 +23,8 @@ def video_post_save(sender, instance, created, **kwargs):
         queue = django_rq.get_queue("default", autocommit=True)
         queue.enqueue(convert720p, instance.video_file.path)
         queue.enqueue(convert480p, instance.video_file.path)
-        cache.set("key", "Value pogchamp")
-        print(cache.get("key"))
+
         cache.clear()
-        value = cache.get("key")
-        if value is None:
-            print("Cache wurde erfolgreich gelöscht.")
-        else:
-            print("Cache löschen hat nicht funktioniert. Der Wert ist noch:", value)
 
 
 @receiver(post_delete, sender=Video)
@@ -44,11 +38,5 @@ def video_post_delete(sender, instance, **kwargs):
             os.remove(instance.thumbnail_file.path)
             os.remove(path_720p)
             os.remove(path_480p)
-            cache.set("key", "Value ist asdasdasd")
-            print(cache.get("key"))
+
             cache.clear()
-            value = cache.get("key")
-            if value is None:
-                print("Cache wurde erfolgreich gelöscht.")
-            else:
-                print("Cache löschen hat nicht funktioniert. Der Wert ist noch:", value)

@@ -15,7 +15,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include(router.urls)),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
-    # path("login/", LoginView.as_view(), name="login"),
     path("videos/", VideoView.as_view(), name="videos"),
     path("__debug__/", include("debug_toolbar.urls")),
     path("django-rq/", include("django_rq.urls")),

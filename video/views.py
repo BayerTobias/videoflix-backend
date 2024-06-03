@@ -25,21 +25,34 @@ class ClearCacheView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        cache.set("key", "Value pogchamp")
-        cache.clear()
-        value = cache.get("key")
-        if value is None:
-            print("Cache wurde erfolgreich gelöscht.")
-            return Response(status=status.HTTP_200_OK)
-        else:
-            print("Cache löschen hat nicht funktioniert. Der Wert ist noch:", value)
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        cache.set("a", "Value asdasdasdas")
+        cache.set("b", "Value asdasdasdas")
+        cache.set("c", "Value asdasdasdas")
+
+        # cache.clear()
+
+        keys = cache.keys("*")
+        views = cache.keys("*views.decorators*")
+        print("all keys:", keys)
+        print("view keys", views)
+        cache.delete_many(views)
+
+        keys = cache.keys("*")
+        print("all keys:", keys)
+
+        # if value is None:
+        #     print("Cache wurde erfolgreich gelöscht.")
+        #     return Response(status=status.HTTP_200_OK)
+        # else:
+        #     print("Cache löschen hat nicht funktioniert. Der Wert ist noch:", value)
+        #     return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_200_OK)
 
 
 class VideoView(APIView):
     # permission_classes = [IsAuthenticated]
 
-    @method_decorator(cache_page(60))
+    @method_decorator(cache_page(60 * 5))
     def get(self, request):
         visibility = request.query_params.get("visibility")
 
