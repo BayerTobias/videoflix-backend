@@ -19,7 +19,6 @@ class TestSetup(APITestCase):
         self.user_reset_username_url = reverse("user-reset-username")
         self.user_reset_username_confirm_url = reverse("user-reset-username-confirm")
         self.user_me_url = reverse("user-me")
-        self.user_delete_url = reverse("user-detail", kwargs={"pk": 1})
 
         self.user_data = {
             "username": "testuser",
@@ -30,13 +29,22 @@ class TestSetup(APITestCase):
 
         # Create user
         self.client.post(self.user_create_url, self.user_data, format="json")
+        self.user = User.objects.get(email=self.user_data["email"])
 
         # Activate user
-        user = User.objects.get(email=self.user_data["email"])
-        uid = encode_uid(user.pk)
-        token = default_token_generator.make_token(user)
+        uid = encode_uid(self.user.pk)
+        token = default_token_generator.make_token(self.user)
         data = {"uid": uid, "token": token}
         self.client.post(self.user_activate_url, data, format="json")
+        # Login
+        login_data = {
+            "username": self.user_data["username"],
+            "password": self.user_data["password"],
+        }
+        login_response = self.client.post(
+            self.token_login_url, login_data, format="json"
+        )
+        self.auth_token = login_response.data.get("auth_token")
 
         return super().setUp()
 
