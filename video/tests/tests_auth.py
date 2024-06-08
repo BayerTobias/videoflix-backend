@@ -2,7 +2,7 @@ from .test_setup import TestSetup
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
-from djoser.utils import decode_uid, encode_uid
+from djoser.utils import encode_uid
 
 
 class TestAuth(TestSetup):
@@ -100,6 +100,7 @@ class TestAuth(TestSetup):
         uid = encode_uid(user.pk)
         token = default_token_generator.make_token(user)
 
+        # set new Password
         reset_data = {
             "uid": uid,
             "token": token,

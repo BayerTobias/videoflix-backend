@@ -10,9 +10,7 @@ from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
 from django.core.cache.backends.base import DEFAULT_TIMEOUT
 
-from django.core.cache import cache
-
-# CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
+CACHE_TTL = getattr(settings, "CACHE_TTL", DEFAULT_TIMEOUT)
 
 
 class VideoViewSet(viewsets.ModelViewSet):
@@ -21,38 +19,10 @@ class VideoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 
-class ClearCacheView(APIView):
+class VideoView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        cache.set("a", "Value asdasdasdas")
-        cache.set("b", "Value asdasdasdas")
-        cache.set("c", "Value asdasdasdas")
-
-        # cache.clear()
-
-        keys = cache.keys("*")
-        views = cache.keys("*views.decorators*")
-        print("all keys:", keys)
-        print("view keys", views)
-        cache.delete_many(views)
-
-        keys = cache.keys("*")
-        print("all keys:", keys)
-
-        # if value is None:
-        #     print("Cache wurde erfolgreich gelöscht.")
-        #     return Response(status=status.HTTP_200_OK)
-        # else:
-        #     print("Cache löschen hat nicht funktioniert. Der Wert ist noch:", value)
-        #     return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_200_OK)
-
-
-class VideoView(APIView):
-    # permission_classes = [IsAuthenticated]
-
-    @method_decorator(cache_page(60 * 5))
+    @method_decorator(cache_page(CACHE_TTL))
     def get(self, request):
         visibility = request.query_params.get("visibility")
 

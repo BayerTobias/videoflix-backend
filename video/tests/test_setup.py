@@ -11,14 +11,10 @@ class TestSetup(APITestCase):
         self.token_logout_url = reverse("logout")
         self.user_create_url = reverse("user-list")
         self.user_activate_url = reverse("user-activation")
-        self.user_resend_activation_url = reverse("user-resend-activation")
-        self.user_set_password_url = reverse("user-set-password")
         self.user_reset_password_url = reverse("user-reset-password")
         self.user_reset_password_confirm_url = reverse("user-reset-password-confirm")
-        self.user_set_username_url = reverse("user-set-username")
-        self.user_reset_username_url = reverse("user-reset-username")
-        self.user_reset_username_confirm_url = reverse("user-reset-username-confirm")
         self.user_me_url = reverse("user-me")
+        self.videos_url = reverse("videos")
 
         self.user_data = {
             "username": "testuser",

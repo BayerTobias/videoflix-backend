@@ -12,7 +12,6 @@ from django.core.cache import cache
 
 @receiver(post_save, sender=Video)
 def video_post_save(sender, instance, created, **kwargs):
-    print("video saved")
     if created:
         if not instance.thumbnail_file.name:
             thumbnail_path = create_thumbnail(instance.video_file.path)
