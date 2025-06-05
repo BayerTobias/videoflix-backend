@@ -29,7 +29,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+	"tobi-bayer.developerakademie.org"
+]
 
 
 # Application definition
@@ -46,7 +48,7 @@ INSTALLED_APPS = [
     "authentication",
     "video.apps.VideoConfig",
     "rest_framework",
-    "debug_toolbar",
+#    "debug_toolbar",
     "django_rq",
     "import_export",
     "djoser",
@@ -54,7 +56,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+ #   "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -70,6 +72,7 @@ INTERNAL_IPS = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
+    "https://videoflix.tobias-bayer.dev/"
 ]
 
 ROOT_URLCONF = "videoflix_backend.urls"
@@ -109,8 +112,8 @@ DJOSER = {
     "SERIALIZERS": {"current_user": "video.serializers.UserSerializer"},
 }
 
-# DOMAIN = "videoflix.tobias-bayer.dev"
-DOMAIN = "localhost:4200"
+DOMAIN = "videoflix.tobias-bayer.dev"
+# DOMAIN = "localhost:4200"
 SITE_NAME = "Videoflix"
 
 
@@ -204,7 +207,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static/staticfiles")
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 STATIC_URL = "static/"
 
 # Default primary key field type
